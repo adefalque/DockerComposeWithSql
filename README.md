@@ -1,3 +1,7 @@
+A playground project that runs with docker-compose 2 containers:  
+- a .Net Core WebApi project using Entity Framework Core
+- Sql Server 2019
+
 ## Run Sql with Docker:
 
 _docker pull mcr.microsoft.com/mssql/server:2019-latest_  
