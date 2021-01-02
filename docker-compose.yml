@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pa55w0rd!"
+    ports:
+      - "1433:1433"
+  
+  weatherforecast-api:
+    depends_on: 
+      - mssql-server
+    build: WeatherForecastApi/.
+    #image: adefalque/weatherforecastapi
+    ports:
+      - "8080:80"
+    environment:
+      ConnectionStrings__WeatherForecastDb: "Server=mssql-server;Initial Catalog=WeatherForecast;User ID=sa;Password=Pa55w0rd!"
+    entrypoint: ["/wait-for-it.sh", "mssql-server:1433", "-t", "120", "--", "dotnet", "WeatherForecastApi.dll"]
